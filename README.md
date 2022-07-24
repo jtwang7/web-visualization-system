@@ -1,46 +1,81 @@
-# Getting Started with Create React App
+# Web Visualization System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- 【CN】个体/群体驾驶轨迹Web可视化分析系统
 
-## Available Scripts
+- 【EN】A Web-based Visual Analytics System for Individual-level and Group-level Driving Trajectories
 
-In the project directory, you can run:
+## 💡技术栈
+
+- React18
+- Redux
+  - react-redux
+  - redux/toolkit
+- react-router
+- axios
+- sass
+
+- Antd
+- deck.gl
+  - react-map-gl
+- numbro.js
+- moment.js
+
+
+
+## ❇️ 项目描述
+
+- 展现目的地预测/出行模式分析成果
+  - 为研究工作提供可视化服务
+- 挖掘轨迹目的地算子模型的应用场景
+  - 目的地预测模型作为基础算子，具有部署到各类智能交通导航与个性化位置服务系统等实际应用场景的价值
+  - 本项目有助于验证各预测模型的有效性
+
+### 🔆 Select PAGE
+
+```
+```
+
+### 🔆 Analysis PAGE
+
+```
+```
+
+### 🔆 Predict PAGE
+
+```
+```
+
+
+
+## ❇️ 使用方法
+
+- 🔆 页面地址
+
+  - **Select PAGE:** http://localhost:3000/select
+
+  - **Analysis PAGE:** http://localhost:3000/analysis
+
+  - **Predict PAGE:** http://localhost:3000/predict
+
+- 🔆 测试账号
+  - 无
+- 🔆 页面路径
+  - 用户筛选 (Select) → 轨迹筛选 (Analysis) → 轨迹预测 (Predict)
+
+
+
+## 本地开发
+
+在项目根目录运行：
+
+### `yarn install`
+
+项目依赖安装
 
 ### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+运行项目开发环境
 
 ### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+项目构建

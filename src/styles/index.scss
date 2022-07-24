@@ -1,0 +1,26 @@
+$gray: #545c64;
+$yellow: #ffd04b;
+$white: #fff;
+
+$backgroundColor: $gray;
+
+// Antd 样式覆盖
+.ant-layout-header,
+.ant-layout-footer,
+.ant-layout-sider-light,
+.ant-layout-content {
+  background: $backgroundColor !important;
+}
+.ant-menu-horizontal {
+  border-bottom: none !important;
+}
+.ant-menu {
+  background: $backgroundColor !important;
+}
+.ant-menu-title-content {
+  color: $yellow !important;
+}
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected:after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover:after {
+  border-bottom: 2px solid $yellow !important;
+}
