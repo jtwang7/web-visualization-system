@@ -1,7 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import selectSlice from "./features/select";
+import commonSlice from "./features/common";
 
 const reducer = {
+  common: commonSlice,
   select: selectSlice,
 };
 

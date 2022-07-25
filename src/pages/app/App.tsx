@@ -1,4 +1,4 @@
-import { Layout, Menu, MenuProps } from "antd";
+import { Layout, Menu, MenuProps, Row, Col } from "antd";
 import {
   EnvironmentOutlined,
   BulbOutlined,
@@ -7,6 +7,7 @@ import {
 import { Outlet } from "react-router-dom";
 import styles from "./styles/index.module.scss";
 import Map from "./components/map";
+import PoiPie from "./components/map/components/poi-pie";
 
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -51,10 +52,17 @@ export default function App() {
           <Content style={{ position: "relative" }}>
             <Map />
           </Content>
-          <Footer style={{zIndex: 1}} ></Footer>
+          <Footer style={{ zIndex: 1 }}></Footer>
         </Layout>
-        <Sider width={400} theme={"light"}>
-          <Outlet />
+        <Sider width={400} theme={"light"} style={{ padding: "10px" }}>
+          <Row>
+            <Col span={24}>
+              <PoiPie />
+            </Col>
+            <Col span={24}>
+              <Outlet />
+            </Col>
+          </Row>
         </Sider>
       </Layout>
     </Layout>
