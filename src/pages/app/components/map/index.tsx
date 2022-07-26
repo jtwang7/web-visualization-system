@@ -168,9 +168,7 @@ export default function TMap(props: MapProps) {
   });
 
   useLayoutEffect(() => {
-    if (!isDoubleSelected) {
-      dispatch(clearPoisForPie());
-    }
+    dispatch(clearPoisForPie());
   }, [isDoubleSelected]);
 
   const registerLayers = [poiGridLayer, userTopColumnLayer, poiArcLayer];
