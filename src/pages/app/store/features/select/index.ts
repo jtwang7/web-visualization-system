@@ -29,7 +29,7 @@ export const selectSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchUserTop.fulfilled, (state, action) => {
       state.userTopData = action.payload;
-      console.log("src/pages/app/store/features/select", action.payload);
+      // console.log("src/pages/app/store/features/select", action.payload);
     });
   },
 });

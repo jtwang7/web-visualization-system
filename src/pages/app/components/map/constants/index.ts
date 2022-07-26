@@ -26,6 +26,12 @@ export const POI_COLOR_RANGE: Color[] = [
   [177, 89, 40],
 ];
 
+// Tooltip Style
+export const TOOLTIP_STYLE = {
+  background: "#ffffff",
+  borderRadius: "5px",
+};
+
 // mapbox 密钥
 export const MAPBOX_ACCESS_TOKEN =
   "pk.eyJ1IjoiMjAxNzMwMjU5MDE1NyIsImEiOiJja3FqM3RjYmIxcjdyMnhsbmR0bHo2ZGVpIn0.wNBmzyxhzCMx9PhIH3rwCA";
