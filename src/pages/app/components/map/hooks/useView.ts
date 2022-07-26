@@ -1,4 +1,4 @@
-import { updatePoisForPie } from "@/pages/app/store/features/common";
+import { clearPoisForPie } from "@/pages/app/store/features/common";
 import { useAppDispatch } from "@/pages/app/store/hooks";
 import { useEffect, useState } from "react";
 import { INITIAL_VIEW_STATE } from "../constants";
@@ -25,7 +25,7 @@ export const useView = (initViewState = INITIAL_VIEW_STATE) => {
     const backToInitView = (ev: KeyboardEvent): any => {
       if (ev.key === "Escape" || ev.key === "Esc") {
         setViewState(initViewState);
-        dispatch(updatePoisForPie([]));
+        dispatch(clearPoisForPie());
       }
     };
     window.addEventListener("keyup", backToInitView);

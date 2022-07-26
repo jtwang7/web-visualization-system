@@ -3,30 +3,37 @@ import _ from "lodash";
 import { Map as StaticMap } from "react-map-gl";
 import DeckGL from "@deck.gl/react/typed";
 import { LightingEffect } from "@deck.gl/core/typed";
-import { ColumnLayer } from "@deck.gl/layers/typed";
+import { ColumnLayer, ArcLayer } from "@deck.gl/layers/typed";
 import { CPUGridLayer } from "@deck.gl/aggregation-layers/typed";
 // common functions
 import { getFillColor } from "./lib/getFillColor";
 import { getUniqueByKey } from "@/lib/getUniqueByKey";
 import { updatePoiProportion } from "./lib/updatePoiProportion";
 // types
-import { BaseColumnLayerDataType, MapProps } from "./types";
+import { BaseColumnLayerDataType, MapProps, PoiArcDataType } from "./types";
 import { POI_COLOR_RANGE } from "./constants";
 // constants
 import { INITIAL_VIEW_STATE, MAPBOX_ACCESS_TOKEN } from "./constants";
 // redux
 import { useAppDispatch, useAppSelector } from "@/pages/app/store/hooks";
 import { fetchUserTop } from "@/pages/app/store/features/select";
-import { fetchPOI, updatePoisForPie } from "@/pages/app/store/features/common";
-import { POI } from "@/pages/app/store/features/common/types";
+import {
+  fetchPOI,
+  singleSelectPoisForPie,
+  doubleSelectPoisForPie,
+  clearPoisForPie,
+} from "@/pages/app/store/features/common";
+import { POI, POIForPie } from "@/pages/app/store/features/common/types";
 // hooks
-import { useMemo } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useMount } from "ahooks";
 import { UserTopData } from "@/pages/app/store/features/select/types";
 import { useLayersVisibility } from "./hooks/useLayersVisibility";
 import { useView } from "./hooks/useView";
 
 export default function TMap(props: MapProps) {
+  const { setTrue = () => {}, isDoubleSelected = false } = props;
+
   const dispatch = useAppDispatch();
 
   useMount(() => {
@@ -87,9 +94,50 @@ export default function TMap(props: MapProps) {
     onClick: (info) => {
       // console.log("src/pages/app/components/map/", info);
       const data = updatePoiProportion(info);
-      dispatch(updatePoisForPie(Object.values(data)));
-      flyToFocusPoint(info?.object?.position);
+      if (!isDoubleSelected) {
+        dispatch(singleSelectPoisForPie(Object.values(data)));
+        flyToFocusPoint(info?.object?.position);
+      } else {
+        dispatch(doubleSelectPoisForPie(Object.values(data)));
+      }
     },
+  });
+
+  /** 双选 POI 连线 */
+  const poisForPie = useAppSelector<POIForPie[][]>(
+    (state) => state.common.poisForPie
+  );
+  const [poiArcData, setPoiArcData] = useState<PoiArcDataType>([]);
+  useEffect(() => {
+    if (poisForPie.length % 2 === 0) {
+      const res: PoiArcDataType = [];
+      for (let i = 0; i < poisForPie.length; i += 2) {
+        const from = {
+          name: "起点",
+          location: poisForPie?.[i]?.[0]?.cellCenter!,
+        };
+        const to = {
+          name: "终点",
+          location: poisForPie?.[i + 1]?.[0]?.cellCenter!,
+        };
+        res.push({
+          from,
+          to,
+        });
+      }
+      setPoiArcData(res);
+    }
+  }, [poisForPie]);
+  const poiArcLayer = new ArcLayer({
+    id: "poi-arc",
+    data: poiArcData,
+    pickable: true,
+    getWidth: 3,
+    greatCircle: true,
+    getSourcePosition: (d) => d.from.location,
+    getTargetPosition: (d) => d.to.location,
+    getSourceColor: [255, 241, 240],
+    getTargetColor: [255, 77, 79],
   });
 
   /** 用户前 5 个高频出行统计特征分布图 */
@@ -119,7 +167,13 @@ export default function TMap(props: MapProps) {
     getElevation: (d) => d.count, // 柱状图高度
   });
 
-  const registerLayers = [poiGridLayer, userTopColumnLayer];
+  useLayoutEffect(() => {
+    if (!isDoubleSelected) {
+      dispatch(clearPoisForPie());
+    }
+  }, [isDoubleSelected]);
+
+  const registerLayers = [poiGridLayer, userTopColumnLayer, poiArcLayer];
   const lightingEffect = new LightingEffect();
   const getTooltip = () => {
     if (!isOwn) return undefined;
@@ -146,6 +200,9 @@ export default function TMap(props: MapProps) {
       getTooltip={getTooltip()}
     >
       <StaticMap
+        onRender={() => {
+          setTrue();
+        }}
         mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
         mapStyle={"mapbox://styles/2017302590157/cksbi52rm50pk17npkgfxiwni"}
       />

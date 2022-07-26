@@ -5,6 +5,9 @@ export interface POI {
   name?: string;
   location?: [number, number];
   address?: string;
+  cellCenter?: [number, number];
 }
 
-export type POIForPie = Pick<POI, "type" | "typeId"> & { value: number };
+export type POIForPie = Pick<POI, "type" | "typeId" | "cellCenter"> & {
+  value: number;
+};

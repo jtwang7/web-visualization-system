@@ -1,6 +1,42 @@
+@use 'src/styles/index.scss' as obj;
+
 .appLayout {
   width: 100vw;
   height: 100vh;
+
+  :global {
+    // Antd 样式覆盖
+    // Spin
+    .ant-spin-nested-loading,
+    .ant-spin-container {
+      position: relative;
+      height: 100%;
+      &::after {
+        height: 100%;
+      }
+    }
+    // Layout
+    .ant-layout-header,
+    .ant-layout-footer,
+    .ant-layout-sider-light,
+    .ant-layout-content {
+      background: obj.$backgroundColor !important;
+    }
+    // Menu
+    .ant-menu-horizontal {
+      border-bottom: none !important;
+    }
+    .ant-menu {
+      background: obj.$backgroundColor !important;
+    }
+    .ant-menu-title-content {
+      color: obj.$yellow !important;
+    }
+    .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected:after,
+    .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover:after {
+      border-bottom: 2px solid obj.$yellow !important;
+    }
+  }
 
   .appContent {
     padding: 0px;

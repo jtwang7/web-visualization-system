@@ -1,9 +1,9 @@
-import { useAppSelector } from "@/pages/app/store/hooks";
 import { Pie, PieConfig } from "@ant-design/plots";
 import { Card } from "antd";
+import { PoiPieProps } from "./types";
 
-export default function PoiPie() {
-  const data = useAppSelector((state) => state.common.poisForPie);
+export default function PoiPie(props: PoiPieProps) {
+  const { data } = props;
 
   const config: PieConfig = {
     height: 150,

@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { limitMemberCounts } from "./lib/limitMemberCounts";
 import { POI, POIForPie } from "./types";
 
 export interface CommonState {
   pois: POI[];
-  poisForPie: POIForPie[];
+  poisForPie: POIForPie[][];
 }
 const initialState: CommonState = {
   pois: [],
@@ -37,8 +38,14 @@ const commonSlice = createSlice({
   name: "common",
   initialState,
   reducers: {
-    updatePoisForPie: (state, action: PayloadAction<POIForPie[]>) => {
-      state.poisForPie = action.payload;
+    singleSelectPoisForPie: (state, action: PayloadAction<POIForPie[]>) => {
+      limitMemberCounts(state.poisForPie, action.payload, 1);
+    },
+    doubleSelectPoisForPie: (state, action: PayloadAction<POIForPie[]>) => {
+      limitMemberCounts(state.poisForPie, action.payload, 2);
+    },
+    clearPoisForPie: (state) => {
+      state.poisForPie.length = 0;
     },
   },
   extraReducers: (builder) => {
@@ -51,6 +58,10 @@ const commonSlice = createSlice({
   },
 });
 
-export const { updatePoisForPie } = commonSlice.actions;
+export const {
+  singleSelectPoisForPie,
+  doubleSelectPoisForPie,
+  clearPoisForPie,
+} = commonSlice.actions;
 
 export default commonSlice.reducer;
