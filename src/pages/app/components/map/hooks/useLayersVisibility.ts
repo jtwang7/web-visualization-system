@@ -6,6 +6,7 @@ import { useReducer } from "react";
 import { updatePoiProportion } from "../lib/updatePoiProportion";
 import { TOOLTIP_STYLE } from "../constants";
 
+// Action 类型
 export type ACTION_TYPE =
   | { type: "poi"; payload: null }
   | { type: "userTop"; payload: null };
