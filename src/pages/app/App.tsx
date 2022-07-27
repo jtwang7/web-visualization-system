@@ -92,8 +92,8 @@ export default function App() {
         </Layout>
         <Sider width={400} theme={"light"} style={{ padding: "10px" }}>
           <Row>
-            {pieData.map((data) => (
-              <Col span={24}>
+            {pieData.map((data, idx) => (
+              <Col span={24} key={idx}>
                 <PoiPie data={data} />
               </Col>
             ))}

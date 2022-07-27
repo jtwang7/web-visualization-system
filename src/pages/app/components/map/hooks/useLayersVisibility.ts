@@ -30,7 +30,7 @@ export const useLayersVisibility = () => {
         return {
           style: TOOLTIP_STYLE,
           html: `<div><div>POI数量：${
-            info?.object?.points.length
+            info?.object?.points?.length
           }</div>${Object.entries(data).reduce((prev, cur) => {
             return prev + `<div>${cur[1].type}：${cur[1].value}</div>`;
           }, "")}</div>`,

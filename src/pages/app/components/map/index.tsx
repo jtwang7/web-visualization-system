@@ -79,6 +79,7 @@ export default function TMap(props: MapProps) {
   const poiGridLayer = new CPUGridLayer<POI>({
     id: "poi",
     visible: layerManagement.poiGridLayer.visible,
+    colorDomain: [0, 11],
     colorRange: POI_COLOR_RANGE,
     data: pois,
     pickable: true,
@@ -107,10 +108,9 @@ export default function TMap(props: MapProps) {
   const poisForPie = useAppSelector<POIForPie[][]>(
     (state) => state.common.poisForPie
   );
-  const [poiArcData, setPoiArcData] = useState<PoiArcDataType>([]);
-  useEffect(() => {
+  const poiArcData = useMemo(() => {
+    let res: PoiArcDataType = [];
     if (poisForPie.length % 2 === 0) {
-      const res: PoiArcDataType = [];
       for (let i = 0; i < poisForPie.length; i += 2) {
         const from = {
           name: "起点",
@@ -125,8 +125,8 @@ export default function TMap(props: MapProps) {
           to,
         });
       }
-      setPoiArcData(res);
     }
+    return res;
   }, [poisForPie]);
   const poiArcLayer = new ArcLayer({
     id: "poi-arc",
@@ -167,12 +167,16 @@ export default function TMap(props: MapProps) {
     getElevation: (d) => d.count, // 柱状图高度
   });
 
+  // 双选功能【触发/取消】均重制数据
   useLayoutEffect(() => {
     dispatch(clearPoisForPie());
   }, [isDoubleSelected]);
 
+  // 图层注入
   const registerLayers = [poiGridLayer, userTopColumnLayer, poiArcLayer];
+  // 光影效果
   const lightingEffect = new LightingEffect();
+  // 配置 Tooltip
   const getTooltip = () => {
     if (!isOwn) return undefined;
     const target = Object.values(layerManagement).find(
@@ -180,6 +184,7 @@ export default function TMap(props: MapProps) {
     );
     return target?.getTooltip;
   };
+  // 配置 Cursor
   const getCursor = () => {
     if (!isOwn) return undefined;
     const target = Object.values(layerManagement).find(
@@ -199,6 +204,7 @@ export default function TMap(props: MapProps) {
     >
       <StaticMap
         onRender={() => {
+          // 底图渲染完成后取消 loading 动画
           setTrue();
         }}
         mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
